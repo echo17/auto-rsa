@@ -1,0 +1,24 @@
+name: Workflow Security
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions: {}
+
+jobs:
+  security:
+    permissions:
+      security-events: write # Write to GitHub Security Events
+      contents: read # Read contents
+      actions: read # Read external action
+    name: Workflow Security
+    uses: NelsonDane/Custom-GitHub-Actions/.github/workflows/security.yml@27c0bd75ca9fb95e52c38f74ac6a3e60474ec7fd

@@ -1,0 +1,79 @@
+[project]
+name = "auto_rsa_bot"
+version = "2.2.0"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "bbae-invest-api==0.1.5",
+    "chaseinvest-api==0.4.7",
+    "cryptography>=46.0.3",
+    "curl-cffi==0.15.0",
+    "discord-py==2.7.1",
+    "dspac-invest-api==0.1.4",
+    "email-validator>=2.3.0",
+    "fennel-invest-api==1.2.0",
+    "fidelity-api==0.0.16",
+    "firstrade==0.0.38",
+    "nodriver==0.47.0",
+    "paho-mqtt>=2.1.0",
+    "publicdotcom-py==0.1.10",
+    "pyotp==2.9.0",
+    "python-dotenv==1.2.2",
+    "pytz>=2025.2",
+    "requests==2.33.1",
+    "schwab-api2>=0.3.0",
+    "selenium-stealth==1.0.6",
+    "setuptools<83",
+    "tastytrade==12.4.1",
+    "typer>=0.20.0",
+    "vanguard-api==0.3.3",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.13.3",
+    "ty>=0.0.11",
+    "types-requests>=2.32.4.20250913",
+]
+
+[project.scripts]
+auto_rsa_bot = "src.cli:app"
+
+[tool.uv]
+package = true
+
+[build-system]
+requires = ["uv_build>=0.11.7,<0.12.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "src"
+module-root = "."
+
+[tool.ruff]
+target-version = "py312"
+extend = "./styles/ruff.toml"
+include = ["src/*"]
+exclude = ["src/vendors/*", "docs/*"]
+
+[tool.ruff.lint]
+ignore = [
+    "BLE001",  # Allow blind exception catch
+    "T201",    # Allow prints
+    "TRY002",  # Create own exception
+    "TRY301",  # Allow raising exceptions
+    "DOC201",  # Don't require returns in doc
+    "DOC501",  # Don't require raises in doc
+]
+[tool.ruff.lint.per-file-ignores]
+"src/brokerages/*" = [
+    "PLR0913", # Allow too many arguments
+    "PLR1702", # Allow many nested blocks
+]
+
+[tool.ty.environment]
+root = ["src"]
+python-version = "3.12"
+
+[tool.ty.src]
+exclude = ["src/vendors/*", "docs/*"]
